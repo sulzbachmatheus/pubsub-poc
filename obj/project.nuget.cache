@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "pUP4A0+Ej+W14CPsdQsmXmuLMjlPkE1rtfVJstNskRK9KcG3eVORcpRejWsVyYfH5dRgenwz5ODsW3GkYC7vtQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Matheus_Sulzbach\\Desktop\\nu-test\\nu-test.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Matheus_Sulzbach\\.nuget\\packages\\confluent.kafka\\1.4.3\\confluent.kafka.1.4.3.nupkg.sha512",
+    "C:\\Users\\Matheus_Sulzbach\\.nuget\\packages\\librdkafka.redist\\1.4.2\\librdkafka.redist.1.4.2.nupkg.sha512",
+    "C:\\Users\\Matheus_Sulzbach\\.nuget\\packages\\system.memory\\4.5.0\\system.memory.4.5.0.nupkg.sha512"
+  ],
+  "logs": []
+}
