@@ -1,0 +1,7 @@
+.vscode
+bin
+obj
+nu_producer/bin
+nu_producer/obj
+nu_consumer/bin
+nu_consumer/obj

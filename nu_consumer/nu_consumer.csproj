@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>nu_test</RootNamespace>
+    <RootNamespace>nu_consumer</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
