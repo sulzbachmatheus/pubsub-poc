@@ -2,7 +2,6 @@ using Confluent.Kafka;
 using System;
 using System.Threading;
 using Newtonsoft.Json;
-using System.Text.RegularExpressions;
 
 namespace nu_consumer
 {

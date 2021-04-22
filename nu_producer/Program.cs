@@ -1,6 +1,5 @@
 using Confluent.Kafka;
 using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -38,6 +37,7 @@ namespace nu_producer
 
                 foreach(var item in replacementList) {
                     var dr = await p.ProduceAsync("nu-topic", new Message<Null, string> { Value = item });
+                    //talvez remover esse sleep no futuro
                     Thread.Sleep(2000);
                 }                     
             }
