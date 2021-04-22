@@ -1,6 +1,8 @@
 using Confluent.Kafka;
 using System;
 using System.Threading;
+using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 
 namespace nu_consumer
 {
@@ -15,35 +17,62 @@ namespace nu_consumer
                 AutoOffsetReset = AutoOffsetReset.Earliest
             };
 
-            using var c = new ConsumerBuilder<Ignore, string>(conf).Build();
+            using var c = new ConsumerBuilder<Ignore, string>(conf).Build();            
+            c.Subscribe("nu-topic");
+            var cts = new CancellationTokenSource();
+            
+            Console.CancelKeyPress += (_, e) => {
+                c.Unsubscribe();
+                e.Cancel = true;
+                cts.Cancel();
+            };
 
+            try
             {
-                c.Subscribe("test-topic");
-
-                var cts = new CancellationTokenSource();
-                Console.CancelKeyPress += (_, e) => {
-                    e.Cancel = true;
-                    cts.Cancel();
-                };
-
-                try
+                while (true)
                 {
-                    while (true)
+                    try
                     {
-                        try
-                        {
-                            var cr = c.Consume(cts.Token);
-                            Console.WriteLine($"Consumed message '{cr.Message.Value}' at: '{cr.TopicPartitionOffset}'.");
-                        }
-                        catch (ConsumeException e)
-                        {
-                            Console.WriteLine($"Error occured: {e.Error.Reason}");
-                        }
+                        var cr = c.Consume(cts.Token);
+                        if(!string.IsNullOrEmpty(cr.Message.Value))
+                            ExecuteOperation(cr.Message.Value);                        
+                    }
+                    catch (ConsumeException e)
+                    {
+                        Console.WriteLine($"Error occured: {e.Error.Reason}");
                     }
                 }
-                catch (OperationCanceledException)
+            }
+            catch (OperationCanceledException)
+            {
+                c.Close();
+            }
+            
+        }
+
+        static void ExecuteOperation (string msg) {
+            var jsonType = JsonHelper(msg);
+            Console.WriteLine(jsonType);
+        }
+
+        static string JsonHelper(string value){
+            var index = value.IndexOf(':');
+            var jsonWithoutObjectName = value.Substring(index + 1);
+            var jsonWithoutObjectNameRemoveLastChar = jsonWithoutObjectName.Remove(jsonWithoutObjectName.Length - 1);
+            
+            try {
+                var creation = JsonConvert.DeserializeObject<Account>(jsonWithoutObjectNameRemoveLastChar);
+                return "creation";
+            }
+            catch (Exception)
+            {
+                try {
+                    var transaction = JsonConvert.DeserializeObject<Transaction>(jsonWithoutObjectNameRemoveLastChar);
+                    return "transaction";
+                }
+                catch (Exception e) 
                 {
-                   c.Close();
+                    throw e;
                 }
             }
         }
