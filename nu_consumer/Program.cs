@@ -60,21 +60,7 @@ namespace nu_consumer
             var jsonWithoutObjectName = value.Substring(index + 1);
             var jsonWithoutObjectNameRemoveLastChar = jsonWithoutObjectName.Remove(jsonWithoutObjectName.Length - 1);
             
-            try {
-                var creation = JsonConvert.DeserializeObject<Account>(jsonWithoutObjectNameRemoveLastChar);
-                return "creation";
-            }
-            catch (Exception)
-            {
-                try {
-                    var transaction = JsonConvert.DeserializeObject<Transaction>(jsonWithoutObjectNameRemoveLastChar);
-                    return "transaction";
-                }
-                catch (Exception e) 
-                {
-                    throw e;
-                }
-            }
+            return jsonWithoutObjectNameRemoveLastChar;
         }
     }
 }
